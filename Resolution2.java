@@ -163,7 +163,7 @@ public class Resolution2
 
                 for(String s: outputStrings){
                     output.printf("%s\n",s);
-                    System.out.println(s + "\n");
+                    System.out.println(s);
 
                 }
             }
