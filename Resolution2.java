@@ -96,16 +96,19 @@ public class Resolution2
               
                     c2 = clauses.get(j);
                    
+                    resolvents.clear();
 
-                    resolvents = resolve(c1,c2);
+                    resolve(c1,c2,resolvents);
                     
                     //now we must check if the resolvents contains an empty clause
                     //because if it does then it is a sign that we have reached a contradiction
                     
                     for(ArrayList<String> r: resolvents){
+                        
                         if(r.size() == 0){
                             contradiction = true;
                         }
+                        Collections.sort(r);
                     }
                     
                     if(contradiction){
@@ -125,7 +128,12 @@ public class Resolution2
             if(contradiction) break;
             
             if(clauses.containsAll(newClauses)) break;
-            clauses.addAll(newClauses);
+            for(ArrayList<String> nc: newClauses){
+                if(!clauses.contains(nc)){
+                    clauses.add(nc);
+                }
+            }
+            //clauses.addAll(newClauses);
                 
 
         }while (!contradiction);
@@ -194,18 +202,12 @@ public class Resolution2
      * @param clause_j A string array of variables all disjunctive from each other
      * @return arraylist of resolvent clauses as a result of clause_i and clause_j to be added to our knowledge base
      */
-    public static ArrayList<ArrayList<String>> resolve(ArrayList<String> clause_i, ArrayList<String> clause_j){
+    public static void resolve(ArrayList<String> clause_i, ArrayList<String> clause_j, ArrayList<ArrayList<String>> resolvents){
 
-        HashSet<String> union = new HashSet<String>();
-        ArrayList<String> resolving = new ArrayList<String>();
-        ArrayList<ArrayList<String>> resolvents = new ArrayList<ArrayList<String>>();
+        
 
         resolvents.addAll(resolvePositiveWithNegative(clause_i,clause_j));
         resolvents.addAll(resolvePositiveWithNegative(clause_j,clause_i));
-
-
-        return resolvents;
-
     }
 
     public static ArrayList<ArrayList<String>> resolvePositiveWithNegative(ArrayList<String> c1,ArrayList<String> c2){
@@ -231,7 +233,7 @@ public class Resolution2
 
             for(String s: c1){
                 if(s.charAt(0) == '~' || !s.equals(complement)){
-                    resolventVariables.add(s);
+                    if(!resolventVariables.contains(s)) resolventVariables.add(s);
                 }
             }
 
@@ -240,7 +242,7 @@ public class Resolution2
             //or if it not in the complement
             for(String s: c2){
                 if(s.charAt(0) != '~' || !s.substring(1).equals(complement)){
-                    resolventVariables.add(s);
+                    if(!resolventVariables.contains(s)) resolventVariables.add(s);
                 }
             }
 
@@ -264,7 +266,7 @@ public class Resolution2
 
         ArrayList<String> output = new ArrayList<>(intersection);
 
-        Collections.sort(output);
+        //Collections.sort(output);
 
         return output;
         
