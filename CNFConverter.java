@@ -1,16 +1,17 @@
 
 /**
- * Write a description of class CNFConverter here.
+ * By using the methods of the LogicTree class, this provides the main method for parsing the input file, performing the CNF conversion algorithm
+ * And then outputting the CNF into a new file
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Luke Jennings
+ * @version Spring 2023
  */
 public class CNFConverter
 {
     
-}
-
-class Logic {
+    public static void main(String args[]){
+    }
     
 }
+
     

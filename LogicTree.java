@@ -121,7 +121,9 @@ public class LogicTree
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
+        if(this.negated) sb.append("~");
         if(this.operator != ';'){
+            
             sb.append(operator + " ");
         } else {
             sb.append(variable + " ");
@@ -182,7 +184,7 @@ public class LogicTree
         if it has any children nodes that are AND nodes, as such the or can be distributed over
         Used later for the distribution step of the algorithm
      */
-    public boolean isDistributable(LogicTree lt){
+    public static boolean isDistributable(LogicTree lt){
         if(lt.operator == '|' && lt.children != null) {
             for(LogicTree c : lt.children){
                 if(c.operator == '&'){
@@ -202,7 +204,7 @@ public class LogicTree
 
         Used later for the removal of implication step
     */
-   public void removeImplication(LogicTree lt){
+   public static void removeImplication(LogicTree lt){
         if(isImplication(lt)){
             lt.operator = '|';
             //this is the left node, so in this case, it would be equivalent to p
@@ -293,6 +295,39 @@ public class LogicTree
             lt.operator ='&';
             for(LogicTree c: lt.children){
                 negateNode(c);
+            }
+        }
+    }
+
+    /**
+     * This function should remove all implications from our logictree
+     * By removing the implication from the current node, and then recursively calling
+     * the function on the children
+     * 
+     * Used for the first step of the CNF conversion process
+     * 
+     * (VERIFIED IT WORKS)
+     * 
+     */
+    public void removeAllImplications(){
+        removeImplication(this);
+        if(this.children != null){
+            for(LogicTree c: this.children){
+                c.removeAllImplications();
+            }
+        }
+    }
+
+    /**
+     *
+     * This function should remove all negation and move them inward
+     *  
+     * */
+    public void removeNegations(){
+        deMorgan(this);
+        if(this.children != null){
+            for(LogicTree c: this.children){
+                c.removeNegations();
             }
         }
     }
