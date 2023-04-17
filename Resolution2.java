@@ -56,8 +56,7 @@ public class Resolution2
 
     
         boolean contradiction = false;
-        boolean contained;
-        boolean subset = true;
+
 
         while(inFile.hasNextLine()){
             count++;
@@ -156,14 +155,14 @@ public class Resolution2
             } else {
                 for(ArrayList<String> c: clauses){
                     sb = new StringBuffer("");
-                    //System.out.println(c.length);
+                    
                     for(int i = 0; i < c.size() - 1; i++){
                        
                         sb.append(c.get(i) + ",");
                        
                     }
                     sb.append(c.get(c.size() - 1));
-                    //output.printf("%s\n",c[c.length - 1]);
+                 
                     outputStrings.add(sb.toString());
                 }
 
